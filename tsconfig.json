@@ -8,11 +8,11 @@
     "allowJs": true,
     "moduleResolution": "node",
 
-    // "baseUrl": ".",
-    // "baseUrl": "src",
-    // "paths": {
-    //   "src/*": ["*"]
-    // },
+    "baseUrl": ".",
+
+    "paths": {
+      "*": ["./src/*"]
+    },
 
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true

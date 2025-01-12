@@ -1,14 +1,12 @@
 import { Suspense, useContext, useState } from "react";
 import { Route, Routes, Link } from "react-router-dom";
 import "./styles/index.scss";
-import { Counter } from "./components/Counter";
-import Main from "./pages/Main/Main";
-import About from "./pages/About/About";
-import { AboutAsync } from "./pages/About/About.async";
-import { MainAsync } from "./pages/Main/Main.async";
-import { ThemeContext } from "./styles/theme/ThemeContext";
-import { useTheme } from "./styles/theme/useTheme";
-import { classNames } from "./helpers/classNames/classNames";
+
+import { About } from "pages/About/index";
+import { Main } from "pages/Main/index";
+import { ThemeContext } from "./providers/ThemeProvider/lib/ThemeContext";
+import { useTheme } from "app/providers/ThemeProvider/lib/useTheme";
+import { classNames } from "shared/lib/helpers/classNames/classNames";
 
 export enum Theme {
   LIGHT = "light",
@@ -23,13 +21,13 @@ const App = () => {
       <button type="button" onClick={toggleTheme}>
         Change Theme
       </button>
-      <Counter />
+
       <Link to={"/about"}>to about</Link>
       <Link to={"/main"}>to main</Link>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path={"about"} element={<AboutAsync />} />
-          <Route path={"main"} element={<MainAsync />} />
+          <Route path={"about"} element={<About />} />
+          <Route path={"main"} element={<Main />} />
         </Routes>
       </Suspense>
     </div>
