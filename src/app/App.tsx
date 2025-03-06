@@ -1,34 +1,46 @@
-import { Suspense, useContext, useState } from "react";
-import { Route, Routes, Link } from "react-router-dom";
-import "./styles/index.scss";
+import './styles/index.scss';
 
-import { About } from "pages/About/index";
-import { Main } from "pages/Main/index";
-import { ThemeContext } from "./providers/ThemeProvider/lib/ThemeContext";
-import { useTheme } from "app/providers/ThemeProvider/lib/useTheme";
-import { classNames } from "shared/lib/helpers/classNames/classNames";
+import { ThemeContext } from './providers/ThemeProvider/lib/ThemeContext';
+import { useTheme } from 'app/providers/ThemeProvider/lib/useTheme';
+import { classNames } from 'shared/lib/helpers/classNames/classNames';
+import { AppRouter } from './providers/router';
+import { Navbar } from 'widgets/Navbar';
+import { Sidebar } from 'widgets/Sidebar';
+import { Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export enum Theme {
-  LIGHT = "light",
-  DARK = "dark",
+  LIGHT = 'light',
+  DARK = 'dark',
+}
+
+function MyComponent() {
+  const { t, i18n } = useTranslation();
+
+  const languageToggle = () => {
+    i18n.changeLanguage(i18n.language === 'ru' ? 'en' : 'ru');
+  };
+
+  return (
+    <div>
+      <h1>{t('Welcome to React')}</h1>
+      <button onClick={languageToggle}>{t('Translate')}</button>
+    </div>
+  );
 }
 
 const App = () => {
-  const { toggleTheme, theme } = useTheme();
+  const { theme } = useTheme();
 
   return (
-    <div className={classNames("app", { we: false }, [theme])}>
-      <button type="button" onClick={toggleTheme}>
-        Change Theme
-      </button>
-
-      <Link to={"/about"}>to about</Link>
-      <Link to={"/main"}>to main</Link>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path={"about"} element={<About />} />
-          <Route path={"main"} element={<Main />} />
-        </Routes>
+    <div className={classNames('app', { we: false }, [theme])}>
+      <Suspense fallback="">
+        <Navbar />
+        <MyComponent />
+        <div className="content-page">
+          <Sidebar />
+          <AppRouter />
+        </div>
       </Suspense>
     </div>
   );
